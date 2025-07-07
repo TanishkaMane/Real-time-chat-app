@@ -1,0 +1,38 @@
+.username-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+  margin: 100px auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: black;
+  }
+
+  input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #e7f3ef;
+    border: 1px solid #ccc;
+    outline: none;
+    color: #4e977f;
+  } 
+
+  button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+}
