@@ -1,4 +1,4 @@
-module github.com/tanishkamane/real-time-chat-bot
+module github.com/TanishkaMane/Real-time-chat-app/backend
 
 go 1.21.5
 
