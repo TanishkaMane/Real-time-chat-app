@@ -1,0 +1,15 @@
+.overlay-container {
+    position: fixed;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    backdrop-filter: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-child {
+    position: fixed;
+}

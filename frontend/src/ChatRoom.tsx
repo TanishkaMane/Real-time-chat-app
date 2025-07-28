@@ -1,6 +1,8 @@
 import "./ChatRoom.scss";
 import React, { useEffect, useRef, useState } from "react";
-import { ColorCodes } from "./constants";
+import { ColorCodes, InfoDropdownOptions } from "./constants";
+import { Positions } from "./common-components/constants/helper";
+import OverlayElement from "./common-components/components/overlay/overlay";
 
 interface Props {
   username: string;
@@ -17,8 +19,11 @@ const ChatRoom: React.FC<Props> = ({ username }) => {
   const [input, setInput] = useState("");
   const ws = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [assignedColor, setAssignedColor] = useState<Record<string, string>>({});
+  const [assignedColor, setAssignedColor] = useState<Record<string, string>>(
+    {}
+  );
   const [showInfoDropdown, setShowInfoDropdown] = useState<boolean>(false);
+  const refInfoElement = useRef<any>(null);
 
   useEffect(() => {
     ws.current = new WebSocket("ws://localhost:8080/ws");
@@ -30,14 +35,15 @@ const ChatRoom: React.FC<Props> = ({ username }) => {
       setMessages((prev) => [...prev, data]);
       setAssignedColor((prevColorMap) => {
         if (!(data.username in prevColorMap)) {
-          const nextColor = ColorCodes[Object.keys(prevColorMap).length % ColorCodes.length]
+          const nextColor =
+            ColorCodes[Object.keys(prevColorMap).length % ColorCodes.length];
           return {
             ...prevColorMap,
-            [data.username]: nextColor
+            [data.username]: nextColor,
           };
         }
-        return prevColorMap
-      })
+        return prevColorMap;
+      });
     };
 
     ws.current.onerror = (err) => {
@@ -66,12 +72,45 @@ const ChatRoom: React.FC<Props> = ({ username }) => {
     setInput("");
   };
 
+  const handleInfoButtonClick = () => {
+    setShowInfoDropdown(true);
+  };
+
+  const onOverlayClick = () => {
+    setShowInfoDropdown(false);
+  };
+
   return (
     <div className="chat-room">
       <div className="title-container">
         <img src="./public/arrow_left.svg" alt="" />
         <span className="title">Chat Room </span>
-        <img src="./public/ic_info.svg" alt="" />
+        <img
+          className="info-img"
+          src="./public/ic_info.svg"
+          alt=""
+          onClick={handleInfoButtonClick}
+          ref={refInfoElement}
+        />
+
+        {showInfoDropdown && (
+          <OverlayElement
+            moveInViewport={true}
+            refElement={refInfoElement}
+            overlayClick={onOverlayClick}
+            position={Positions.bottom}
+          >
+            <div className="info-dropdown">
+              {InfoDropdownOptions.map((item, index) => {
+                return (
+                  <div className="info-option" key={index}>
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          </OverlayElement>
+        )}
       </div>
       <div className="messages">
         {messages.length === 0 ? (
@@ -91,7 +130,17 @@ const ChatRoom: React.FC<Props> = ({ username }) => {
                 {msg.username !== username && prev.username != msg.username && (
                   <div className="username">{msg.username}</div>
                 )}
-                <div style={{backgroundColor: assignedColor[msg.username]}} className="message">{msg.message}</div>
+                <div
+                  style={{
+                    backgroundColor:
+                      msg.username !== username
+                        ? assignedColor[msg.username]
+                        : undefined,
+                  }}
+                  className="message"
+                >
+                  {msg.message}
+                </div>
               </div>
             );
           })

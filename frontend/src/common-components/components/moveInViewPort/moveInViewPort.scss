@@ -1,0 +1,9 @@
+.view-port-content-container {
+    position: fixed;
+    z-index: 10;
+    max-height: 100vh;
+    visibility: hidden;
+    &.visible {
+        visibility: visible;
+    }
+}

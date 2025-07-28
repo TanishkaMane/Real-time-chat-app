@@ -10,3 +10,9 @@ export const ColorCodes = [
   "#F3E8FF", // orchid
   "#F0FDF4"  // light mint
 ];
+
+export const InfoDropdownOptions = [
+  "count",
+  "rename",
+  "exit",
+]
