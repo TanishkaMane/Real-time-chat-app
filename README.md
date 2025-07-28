@@ -25,3 +25,5 @@ This project was built to understand and implement real-time data flow using Web
 1. Clone the repo
 2. Run backend (`go run main.go`)
 3. Run frontend (`npm run dev`)
+4. Open http://localhost:5173 in multiple browser tabs or windows
+5. Start sending messages — you’ll see the messages appear live in all tabs, keeping everything in sync
